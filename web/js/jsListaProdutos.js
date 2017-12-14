@@ -25,14 +25,14 @@ $(document).ready(function () {
         onAlways: function () {
             console.log('onAlways()');
         }
-        
-    });
-    
-        
-});
-    
 
-function abreGerenciadorFotos(id){
-            $("#iframeFotos").attr("src","./fotos?cmd=listarFotos&id="+id);
-            $("#janelaFotos").modal();
-        }
+    });
+});
+
+
+function abreGerenciadorFotos(id) {
+    $("#file").val('');
+    $("#idProduto-modal").val(id);
+    $("#janelaFotos").modal();
+
+}

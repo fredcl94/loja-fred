@@ -4,9 +4,11 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="../../favicon.ico">
 
-<title>Narrow Jumbotron Template for Bootstrap</title>
+<link rel="icon" href="./img/icon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="./img/icon.ico" type="image/x-icon" />
+
+<title>Compra Fácil</title>
 
 <!-- Bootstrap core CSS -->
 <link href="template/dist/css/bootstrap.min.css" rel="stylesheet">

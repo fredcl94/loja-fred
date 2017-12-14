@@ -43,10 +43,7 @@
                              
                     <label for="inputQuantidade">Quantidade do Produto</label>
                     <input type="text" class="form-control" name="inputQuantidade" placeholder="Quantidade do Produto" required>
-                               
-                    <label for="inputImagem">Imagem do Produto</label>
-                    <input class="btn btn-primary" type="file" name="inputImagem">
-                    
+                                                 
                     <label for="inputMarca">Marca do Produto</label>
                     <input type="text" class="form-control" name="inputMarca" placeholder="Marca do Produto" required>
                     

@@ -6,7 +6,7 @@
 package controller;
 
 import cdc.util.DAO;
-import cdc.util.FotoDAO;
+import cdc.util.FotosDAO;
 import cdc.util.ProdutoDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,7 +48,7 @@ public class ControladorProdutos extends HttpServlet {
 
         try {
             ProdutoDAO = new ProdutoDAO();
-            FotoDAO = new FotoDAO();
+            FotoDAO = new FotosDAO();
             RequestDispatcher rd = null;
             
             if (cmd.equalsIgnoreCase("listarProdutos")) {

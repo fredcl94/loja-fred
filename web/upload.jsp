@@ -4,17 +4,24 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <%@include file="template/head.jsp" %>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <form action ="UploadController" name ="frmproduto" method="post" enctype="multipart/form-data">
-                        <legend>Novo produto</legend>
-                        <input type="hidden" name="id" value="10" />
-                        <input type="text" name="nome" />
-                        <label for="pais" class="cor-label">Imagem</label>
-                        <input type ="file" name ="arquivo"/>
-                        <input type ="submit" class ="btn btn-primary" value="Registar"/>
-        </form>
+        <div class="container">
+            <form action ="./fotos" name ="frmproduto" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="idProduto" value="" />
+                <!--                
+                                <input class="btn btn-primary" type="file" name="inputImagem"><p>-->
+                <div class="form-group row">
+                    <label for="inputImagem">Imagem do Produto</label>
+                    <div class="">
+                        <input class="btn btn-primary" type="file" name="inputImagem"><p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <button type ="submit" class="btn btn-primary " value="salvar" >Salvar</button>
+                </div>
+            </form>
+        </div>
     </body>
 </html>

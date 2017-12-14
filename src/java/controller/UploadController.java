@@ -17,8 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 //import org.apache.commons.fileupload.FileUploadException;
 
-
-@WebServlet(name = "UploadController", urlPatterns = {"/UploadController"})
+@WebServlet(name = "UploadController", urlPatterns = {"/fotos"})
 public class UploadController extends HttpServlet {
 
     /**
@@ -30,23 +29,35 @@ public class UploadController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException,  CloneNotSupportedException {
-//        response.setContentType("text/html;charset=UTF-8");
-//        
-//        try (PrintWriter out = response.getWriter()) {
-//            
-//            Upload upload = new Upload("/img/imgupload/");
-//            try {
-//		if (upload.anexos(request)) {
-//			out.print("Ficheiro enviado!");
-//		} else {
-//			out.print("Ficheiro não enviado!");
-//		}
-//            } catch (Exception e) {
-//                    e.printStackTrace();
-//            }
-//        }
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, CloneNotSupportedException {
+        response.setContentType("text/html;charset=UTF-8");
+
+        try (PrintWriter out = response.getWriter()) {
+            String cmd = (request.getParameter("cmd") != null) ? request.getParameter("cmd").toString() : "";
+            String idProduto = request.getParameter("idProduto");
+
+            switch (cmd) {
+                case "salvar":
+                    Upload upload = new Upload("/img/");
+                    try {
+                        if (upload.anexos(request)) {
+                            out.print("Ficheiro enviado!");
+                        } else {
+                            out.print("Ficheiro não enviado!");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
+                default:
+                    request.getRequestDispatcher("./login.jsp");
+            }
+
+        }catch(Exception e){
+            System.out.println("\n\n\nErro: " + e.getMessage() + "\n\n\n\n");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -65,7 +76,7 @@ public class UploadController extends HttpServlet {
             processRequest(request, response);
         } catch (Exception ex) {
             Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
 
     /**
@@ -83,7 +94,7 @@ public class UploadController extends HttpServlet {
             processRequest(request, response);
         } catch (Exception ex) {
             Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
 
     /**

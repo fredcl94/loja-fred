@@ -5,7 +5,7 @@
  */
 package controller;
 
-import cdc.util.FotoDAO;
+import cdc.util.FotosDAO;
 import cdc.util.ProdutoDAO;
 import cdc.util.Upload;
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class controladorCadastroDeProdutosParaVender extends HttpServlet {
                         if (produto.size()>0){           
                             request.setAttribute("mensagem", "Produto cadastrado com sucesso");
                             int id = produto.get(0).getPRO_ID();                       
-                            FotoDAO fotoDAO = new FotoDAO();
+                            FotosDAO fotoDAO = new FotosDAO();
                             Foto foto = new Foto(0, (String) parametros.get("foto"), id);
                             fotoDAO.salvar(foto);
                        } 

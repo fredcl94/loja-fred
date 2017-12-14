@@ -80,7 +80,7 @@
                                     <td><%= p.getPRO_QUANTIDADE()%></td>
                                     <td><%= p.getPRO_MARCA()%></td>
                                     <td><%= p.getPRO_CATEGORIA()%></td>
-                                    <td><button type="button" onclick="abreGerenciadorFotos(<%= p.getPRO_ID()%>);" class="btn btn-sm btn-default" ><span class="glyphicon glyphicon-camera"></span></button></td>
+                                    <td><button type="button" id="img" onclick="abreGerenciadorFotos(<%= p.getPRO_ID()%>);" class="btn btn-sm btn-default" ><span class="glyphicon glyphicon-camera"></span></button></td>
 
                                 </tr>
                                 <%
@@ -99,18 +99,27 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Modal title</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
+                        <h4 class="modal-title">Upload de Imagem do Produto</h4>
                     </div>
-                    <div class="modal-body">
-                        <iframe style="width:95%;height:300px; border: 0" id="iframeFotos"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                    <form action ="./fotos" name ="frmproduto" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="container">
+                                <input type="hidden" id="idProduto-modal" name="idProduto" value="" />           
+                                <div class="form-group row">
+                                    <div class="">
+                                        <input id="file" class="btn btn-primary form-control" type="file" name="inputImagem"><p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type ="submit" class="btn btn-primary " value="salvar" >Salvar</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

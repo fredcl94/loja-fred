@@ -79,7 +79,7 @@
                                         } else {
                                             request.getRequestDispatcher("PainelDeControleUsuario.jsp");
                                         }
-                                        
+
                                         request.setAttribute("compra", compra);
                                         for (Produto p : compra.getProdutos()) {
                                             System.out.print(compra.getProdutos().size());
@@ -104,8 +104,8 @@
                         </fieldset>
                     </div> 
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">Forma de Pagamento</label>
-                        <div class="col-xs-5 selectContainer">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-4 selectContainer">
                             <select class="form-control" name="forma">
                                 <option value="">Forma de pagamento</option>
                                 <option value="C">Cartao de credito</option>
@@ -113,17 +113,14 @@
                                 <option value="B">Boleto</option>
                             </select>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-xs-5 col-xs-offset-3">
+                        <div class="col-md-5">
                             <button type="submit" name="acao" id="acao" value="finalizar" class="btn btn-default">Adicionar</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-         
+
         <footer>
             <%@include file="template/rodape.jsp" %>
         </footer>    
