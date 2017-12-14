@@ -12,7 +12,6 @@ public class Produto {
     private String PRO_DESCRICAO;
     private Double PRO_VALOR;
     private int PRO_QUANTIDADE;
-   // private  byte[] PRO_FOTOS;
     private String PRO_MARCA;
     private String PRO_CATEGORIA;
 
@@ -27,18 +26,10 @@ public class Produto {
         this.PRO_DESCRICAO = PRO_DESCRICAO;
         this.PRO_VALOR = PRO_VALOR;
         this.PRO_QUANTIDADE = PRO_QUANTIDADE;
-     //   this.PRO_FOTOS = PRO_FOTOS;
         this.PRO_MARCA = PRO_MARCA;
         this.PRO_CATEGORIA = PRO_CATEGORIA;
     }
-
-    public Produto(Integer id, String nome, String uf) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
-    
-
-       
     public int getPRO_ID() {
         return PRO_ID;
     }

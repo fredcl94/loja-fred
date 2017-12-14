@@ -61,10 +61,6 @@
                                         <th>Nome</th>
                                         <th>Descrição</th>
                                         <th>Valor</th>
-                                        <!--                                    <th>Quantidade</th>
-                                                                            <th>Marca</th>
-                                                                            <th>Categoria</th>
-                                                                            <th>Foto</th>-->
                                     </tr>
                                     <%
                                         int idUsuario = (request.getSession().getAttribute("USU_ID") != null) ? Integer.parseInt(request.getSession().getAttribute("USU_ID").toString()) : 0;
@@ -89,11 +85,6 @@
                                         <td><%= p.getPRO_NOME()%></td>
                                         <td><%= p.getPRO_DESCRICAO()%></td>
                                         <td><%= p.getPRO_VALOR()%></td>
-    <!--                                    <td><%= p.getPRO_QUANTIDADE()%></td>
-                                        <td><%= p.getPRO_MARCA()%></td>
-                                        <td><%= p.getPRO_CATEGORIA()%></td>
-                                        <td><button type="button" onclick="abreGerenciadorFotos(<%= p.getPRO_ID()%>);" class="btn btn-sm btn-default" ><span class="glyphicon glyphicon-camera"></span></button></td>-->
-
                                     </tr>
                                     <%
                                         }
@@ -114,7 +105,7 @@
                             </select>
                         </div>
                         <div class="col-md-5">
-                            <button type="submit" name="acao" id="acao" value="finalizar" class="btn btn-default">Adicionar</button>
+                            <button type="submit" name="acao" id="acao" value="finalizar" class="btn btn-default">Finalizar</button>
                         </div>
                     </div>
                 </form>

@@ -191,7 +191,7 @@ public class ComprasDAO implements DAO {
             ps.setString(1, compra.getCOM_FORMA_PAGAMENTO());
             ps.setInt(2, compra.getUSUARIO_USU_ID());
             rs = ps.executeQuery();
-
+            System.out.println("");
             while (rs.next()) {
                 idCompra = rs.getInt(1);
             }

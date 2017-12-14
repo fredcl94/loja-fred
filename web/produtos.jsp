@@ -1,11 +1,10 @@
 
 
+<%@page import="cdc.util.FotosDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Produto"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="cdc.util.ProdutoDAO"%>
-
-
 <%
     HttpSession sessao = request.getSession();//pegando a sessão ativa
     if (sessao.getAttribute("statusLogin") == null) {
@@ -14,8 +13,6 @@
         rd.forward(request, response);
     }
 %>
-
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -37,20 +34,14 @@
                 <jsp:param name="atual" value="conta" />
             </jsp:include>      
         </div>    
-
         <div class="container"> 
-
             <div class="row">
                 <div class="col-md-3">
                     <a href="CadastroDeProdutosParaVender.jsp" class="btn btn-success btn-menu" role="button">Cadastro de Produtos</a>
                     <a href="./compras.jsp" class="btn btn-success btn-menu" role="button">Meus Produtos - De Compras </a>
                     <a href="ControladorVendas.jsp?cmd=listarVendas" class="btn btn-success btn-menu" role="button">Minhas Vendas</a>
-
-
                 </div>
-
                 <div class="col-md-9">
-
                     <fieldset>
                         <legend><strong>Lista de Produtos</strong></legend>
                         <div class="table-responsive">
@@ -69,8 +60,9 @@
                                     ProdutoDAO produtoDAO = new ProdutoDAO();
                                     List<Produto> lista;
                                     lista = produtoDAO.listaTodos();
-
                                     for (Produto p : lista) {
+                                        FotosDAO fotoDao = new FotosDAO(); 
+                                        boolean temFoto = fotoDao.verificaSeExisteFotoDoProduto(p.getPRO_ID()); 
                                 %>
                                 <tr>
                                     <td><%= p.getPRO_ID()%></td>
@@ -80,13 +72,11 @@
                                     <td><%= p.getPRO_QUANTIDADE()%></td>
                                     <td><%= p.getPRO_MARCA()%></td>
                                     <td><%= p.getPRO_CATEGORIA()%></td>
-                                    <td><button type="button" id="img" onclick="abreGerenciadorFotos(<%= p.getPRO_ID()%>);" class="btn btn-sm btn-default" ><span class="glyphicon glyphicon-camera"></span></button></td>
-
+                                    <td><button type="button" id="img" onclick="abreGerenciadorFotos(<%= p.getPRO_ID()%>);" class="btn btn-sm <%= (temFoto == true) ? "btn-success" : "btn-danger"%>" ><span class="glyphicon glyphicon-camera"></span></button></td>
                                 </tr>
                                 <%
                                     }
                                 %>
-
                             </table>
                         </div>
                     </fieldset>
@@ -94,7 +84,6 @@
             </div>
         </div>
         <!-- Modal -->
-
         <div class="modal fade" id ="janelaFotos">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -123,7 +112,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Modal -->    
         <footer>
             <%@include file="template/rodape.jsp" %>

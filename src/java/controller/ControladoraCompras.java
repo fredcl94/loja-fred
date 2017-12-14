@@ -79,41 +79,25 @@ public class ControladoraCompras extends HttpServlet {
                 System.out.println("\n\n\n\nCompra: " + comp.toString() + "\n\n\n");
 
                 boolean resp = compraDAO.salvarCompra(comp);
+                System.out.println("Retorno de salva compra: " + resp);
 
                 if (resp) {
                     request.setAttribute("resposta", "Compra efetuada com sucesso!");
-                    
+                    request.getRequestDispatcher("./index.jsp").forward(request, response);
+
                 } else {
-                    request.setAttribute("erro", "crie uma mensagem!");
-                }
-            } else {
-                String id = "";
-                ArrayList<Produto> prods = (ArrayList<Produto>) request.getSession().getAttribute("carrinho");
+                    request.setAttribute("resposta", "crie uma mensagem!");
+                    request.getRequestDispatcher("./index.jsp").forward(request, response);
 
-                id += "\n\n";
-                for (Produto prod : prods) {
-                    id += String.valueOf(prod.getPRO_ID());
-                    id += "\n\n";
                 }
 
-                System.out.println(id);
             }
         } catch (Exception e) {
             System.out.println("\n\n\nExceção: " + e.getMessage());
         }
 
     }
-//    request.getRequestDispatcher("PainelDeControleUsuario.jsp");
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -25,8 +25,8 @@ $(document).ready(function () {
         onAlways: function () {
             console.log('onAlways()');
         }
-
     });
+     $("#file").val('');
 });
 
 

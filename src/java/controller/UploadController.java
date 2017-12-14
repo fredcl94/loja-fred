@@ -5,7 +5,9 @@
  */
 package controller;
 
+import cdc.util.FotosDAO;
 import cdc.util.Upload;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -15,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Foto;
 //import org.apache.commons.fileupload.FileUploadException;
 
 @WebServlet(name = "UploadController", urlPatterns = {"/fotos"})
@@ -32,31 +35,25 @@ public class UploadController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, CloneNotSupportedException {
         response.setContentType("text/html;charset=UTF-8");
-
+        FotosDAO fofosDao;
+        Upload upload = new Upload();
         try (PrintWriter out = response.getWriter()) {
-            String cmd = (request.getParameter("cmd") != null) ? request.getParameter("cmd").toString() : "";
-            String idProduto = request.getParameter("idProduto");
-
-            switch (cmd) {
-                case "salvar":
-                    Upload upload = new Upload("/img/");
-                    try {
-                        if (upload.anexos(request)) {
-                            out.print("Ficheiro enviado!");
-                        } else {
-                            out.print("Ficheiro não enviado!");
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-
-                default:
-                    request.getRequestDispatcher("./login.jsp");
+            fofosDao = new FotosDAO();
+            if (upload.anexos(request, response)) {
+                Foto img = new Foto(0, upload.getNameFoto(), upload.getIdProduto());
+                fofosDao.salvar(img);
+                request.setAttribute("mensagem", "Foto inserida!");
+                request.getRequestDispatcher("/ControladorProdutos?cmd=listarProdutos").forward(request, response);
+            } else {
+                boolean success = (new File(upload.caminhoDaFoto)).delete();
+                request.setAttribute("mensagem", "Nao foi possivel inserir a foto do produto!");
+                request.getRequestDispatcher("/ControladorProdutos?cmd=listarProdutos").forward(request, response);
             }
-
-        }catch(Exception e){
-            System.out.println("\n\n\nErro: " + e.getMessage() + "\n\n\n\n");
+        } catch (Exception e) {
+            boolean success = (new File(upload.caminhoDaFoto)).delete();
+            request.setAttribute("mensagem", "Nao foi possivel inserir a foto do produto!");
+            request.getRequestDispatcher("/ControladorProdutos?cmd=listarProdutos").forward(request, response);
+            System.out.println("\n\n\nErro: " + success + "\n\n\n\n");
         }
     }
 

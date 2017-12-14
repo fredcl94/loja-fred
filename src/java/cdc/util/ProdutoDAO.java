@@ -12,7 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import model.Foto;
 import model.Produto;
+import model.ProdutoComFoto;
 
 public class ProdutoDAO implements DAO {
 
@@ -72,13 +74,22 @@ public class ProdutoDAO implements DAO {
         }
         try {
             conn = this.conn;
-            ps = conn.prepareStatement("DELETE FROM produto WHERE PRO_ID=?");
+            conn.setAutoCommit(false);
+
+            ps = conn.prepareStatement(" DELETE FROM `fotos` WHERE `FOTO_PRO_ID` = ? ");
             ps.setInt(1, produto.getPRO_ID());
             ps.executeUpdate();
 
+            ps = conn.prepareStatement("DELETE FROM produto WHERE PRO_ID = ?");
+            ps.setInt(1, produto.getPRO_ID());
+            ps.executeUpdate();
+
+            conn.commit();
         } catch (SQLException sqle) {
+            conn.rollback();
             throw new Exception("Erro ao excluir dados: " + sqle);
         } finally {
+            conn.setAutoCommit(true);
             ConnectionDAO.closeConnection(conn, ps);
         }
 
@@ -100,9 +111,8 @@ public class ProdutoDAO implements DAO {
                 String pro_descricao = rs.getString(3);
                 double pro_valor = rs.getDouble(4);
                 Integer pro_quatidade = rs.getInt(5);
-                // byte[] pro_fotos = rs.getBytes(6);
-                String pro_marca = rs.getString(7);
-                String pro_categoria = rs.getString(8);
+                String pro_marca = rs.getString(6);
+                String pro_categoria = rs.getString(7);
                 list.add(new Produto(pro_id, pro_nome, pro_descricao, pro_valor, pro_quatidade, pro_marca, pro_categoria));
             }
             return list;
@@ -132,9 +142,8 @@ public class ProdutoDAO implements DAO {
                 String pro_descricao = rs.getString(3);
                 double pro_valor = rs.getDouble(4);
                 Integer pro_quatidade = rs.getInt(5);
-                // byte[] pro_fotos = rs.getBytes(6);
-                String pro_marca = rs.getString(7);
-                String pro_categoria = rs.getString(8);
+                String pro_marca = rs.getString(6);
+                String pro_categoria = rs.getString(7);
                 list.add(new Produto(pro_id, pro_nome, pro_descricao, pro_valor, pro_quatidade, pro_marca, pro_categoria));
             }
             return list;
@@ -346,8 +355,8 @@ public class ProdutoDAO implements DAO {
         }
 
         try {
-            String SQL = "INSERT INTO `produto` (`PRO_ID`, `PRO_NOME`, `PRO_DESCRICAO`, `PRO_VALOR`, `PRO_QUANTIDADE`, `PRO_FOTOS` ,"
-                    + "`PRO_MARCA`, `PRO_CATEGORIA`) VALUES (NULL, ?, ?, ?, ?, NULL, ?, ?)";
+            String SQL = "INSERT INTO `produto` (`PRO_NOME`, `PRO_DESCRICAO`, `PRO_VALOR`, `PRO_QUANTIDADE`,"
+                    + "`PRO_MARCA`, `PRO_CATEGORIA`) VALUES (?, ?, ?, ?, ?, ?)";
 
             conn = this.conn;
             ps = conn.prepareStatement(SQL);
@@ -355,19 +364,67 @@ public class ProdutoDAO implements DAO {
             ps.setString(2, produto.getPRO_DESCRICAO());
             ps.setDouble(3, produto.getPRO_VALOR());
             ps.setInt(4, produto.getPRO_QUANTIDADE());
-            // ps.setBytes(5, produto.getPRO_FOTOS());
             ps.setString(5, produto.getPRO_MARCA());
             ps.setString(6, produto.getPRO_CATEGORIA());
             ps.executeUpdate();
 
         } catch (SQLException sqle) {
-
+            System.out.println("Erro na query: " + ps);
             throw new Exception("Erro ao inserir dados do produto: \n" + sqle);
 
         } finally {
             ConnectionDAO.closeConnection(conn, ps);
         }
 
+    }
+
+    public List buscaProdutos() throws Exception {
+        PreparedStatement ps = null;
+        Connection conn = null;
+        ResultSet rs = null;
+        List<ProdutoComFoto> list = new ArrayList<ProdutoComFoto>();
+        try {
+            conn = this.conn;
+            ps = conn.prepareStatement(" SELECT * FROM `fotos` INNER JOIN `produto` ON `fotos`.`FOTO_PRO_ID` = `produto`.`PRO_ID` ");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Foto foto = new Foto(rs.getInt(1), rs.getString(2), rs.getInt(3));
+                Produto prod = new Produto(rs.getInt(4), rs.getString(5), rs.getString(6), rs.getDouble(7), rs.getInt(8), rs.getString(9), rs.getString(10));
+                list.add(new ProdutoComFoto(prod, foto));
+            }
+        } catch (SQLException sqle) {
+            throw new Exception(sqle);
+        } finally {
+            ConnectionDAO.closeConnection(conn, ps, rs);
+        }
+        return list;
+    }
+    
+    public boolean verificaSeProdutoExisteNoCarrinho(int idProduto, int idUsuario) throws Exception {
+        PreparedStatement ps = null;
+        Connection conn = null;
+        ResultSet rs = null;
+         System.out.println(idUsuario + "Query: " + idProduto);
+        boolean existe = false;
+        try {
+            conn = this.conn;
+            ps = conn.prepareStatement(" SELECT COUNT(`PRODUTO_PRO_ID`) AS qtde FROM `produto_has_usuario` WHERE `PRODUTO_PRO_ID` = ? AND `USUARIO_USU_ID` = ? ");
+            ps.setInt(1,idProduto);
+            ps.setInt(2, idUsuario);
+            
+            rs = ps.executeQuery();
+            while (rs.next()) {
+               if(rs.getInt(1) > 0){
+                   existe = true; 
+               }
+            }
+        } catch (SQLException sqle) {
+            System.out.println("Query: " + ps);
+            throw new Exception(sqle);
+        } finally {
+            ConnectionDAO.closeConnection(conn, ps, rs);
+        }
+        return existe;
     }
 
 }

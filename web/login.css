@@ -14,6 +14,15 @@ and open the template in the editor.
     margin: 0 auto;
 }
 .fundo{
- 	background-color: #CCC;
- 	background-image: url('template/telas/fundo1.jpg');
- }
+    /* 	background-color: #CCC;
+            background-image: url('template/telas/fundo1.jpg');*/
+    /*background: linear-gradient(to right, rgba(0, 51, 128), rgb´´a(255,0,0,1));*/
+
+    background: #66a3ff; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, #e6f7ff, #80d7ff); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #e6f7ff, #80d7ff); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #e6f7ff, #80d7ff); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #e6f7ff , #80d7ff); /* Standard syntax */
+}
+
+ 

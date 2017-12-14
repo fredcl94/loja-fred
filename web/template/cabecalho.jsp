@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li role="presentation" class="focus"><a href="index.jsp">Inicio</a></li>
-                <li role="presentation"><a href="login.jsp">Login</a></li>
+
                 <li role="presentation"><a href="./PainelDeControleUsuario.jsp">Painel de Controle</a></li>
                 <li role="presentation"><a href="#">
                         <%
@@ -38,6 +38,7 @@
                         <span class="glyphicon glyphicon-shopping-cart"> </span><%=qtde%>
                     </a>
                 </li>
+                <li class="navbar-right" role="presentation"><a href="login.jsp">Login</a></li>
             </ul>
 
 

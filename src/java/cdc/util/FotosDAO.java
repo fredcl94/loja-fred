@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Foto;
+import model.Produto;
+import model.ProdutoComFoto;
 
 public class FotosDAO implements DAO {
 
@@ -43,7 +45,7 @@ public class FotosDAO implements DAO {
         }
         try {
             conn = this.conn;
-            ps = conn.prepareStatement("DELETE FROM FOTOS WHERE FOTO_ID=?");
+            ps = conn.prepareStatement("DELETE FROM fotos WHERE FOTO_ID=?");
             ps.setInt(1, foto.getFOTO_PRO_ID());
             ps.executeUpdate();
 
@@ -61,7 +63,7 @@ public class FotosDAO implements DAO {
         ResultSet rs = null;
         try {
             conn = this.conn;
-            ps = conn.prepareStatement("SELECT * FROM FOTOS");
+            ps = conn.prepareStatement("SELECT * FROM `fotos`");
             rs = ps.executeQuery();
             List<Foto> list = new ArrayList<Foto>();
             while (rs.next()) {
@@ -79,6 +81,32 @@ public class FotosDAO implements DAO {
         }
     }
 
+    public boolean verificaSeExisteFotoDoProduto(int idProduto) throws Exception {
+        boolean existe = false;
+        PreparedStatement ps = null;
+        Connection conn = null;
+        ResultSet rs = null;
+        try {
+            conn = this.conn;
+            ps = conn.prepareStatement(" SELECT COUNT(`FOTO_ID`) AS qtde FROM `fotos` WHERE `FOTO_PRO_ID` = ? ");
+            ps.setInt(1, idProduto);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getInt(1) > 0) {
+                    existe = true;
+                }
+            }
+        } catch (SQLException sqle) {
+            throw new Exception(sqle);
+        } finally {
+            ConnectionDAO.closeConnection(conn, ps, rs);
+        }
+        return existe;
+
+    }
+
     @Override
     public List procura(Object ob) throws Exception {
         List<Foto> list = new ArrayList<Foto>();
@@ -92,7 +120,7 @@ public class FotosDAO implements DAO {
         }
         try {
             conn = ConnectionDAO.getConnection();
-            String SQL = "SELECT * FROM FOTOS ";
+            String SQL = "SELECT * FROM fotos ";
             String where = "";
             boolean checa = false;
             if (foto.getFOTO_ID() != 0 || foto.getFOTO_NOME() != null || foto.getFOTO_PRO_ID() != 0) {
@@ -164,7 +192,7 @@ public class FotosDAO implements DAO {
         }
 
         try {
-            String SQL = "INSERT INTO `Loja-Online`.`FOTOS` (`FOTO_ID`, `FOTO_NOME`) VALUES (NULL, ?)";
+            String SQL = "INSERT INTO `fotos`(`FOTO_NOME`, `FOTO_PRO_ID`) VALUES (?, ?)";
 
             conn = ConnectionDAO.getConnection();
             ps = conn.prepareStatement(SQL);
@@ -173,7 +201,8 @@ public class FotosDAO implements DAO {
             ps.executeUpdate();
 
         } catch (SQLException sqle) {
-
+            System.out.println("Erro execute sql :" + sqle.getMessage());
+            System.out.println("\n\nQuery :" + ps);
             throw new Exception("Erro ao inserir dados da foto: \n" + sqle);
 
         } finally {
